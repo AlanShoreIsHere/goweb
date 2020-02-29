@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta  charset = "utf-8">
+    <title> 许可控制 </title>
+    <script type="text/javascript"></script>
+</head>
+<body>
+
+<form action="login" method="post">
+    激活码：<input id="deviceid" type="text" value=""/>
+    <input id="btn1" type="button"  onclick=" return OnButton1()"  value="申请"/>
+    <br>
+    授权文件:<input name="licFile" id="fu" type="hidden">
+    <input type="file" class="file" multiple>
+    <input type="submit" value="上传">
+</form>
+<script>
+    function  OnButton1() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', '/ajax', true);
+        xhr.send();
+        xhr.onreadystatechange = function ()
+        {
+            if (xhr.readyState == 4) {
+                if  (xhr.status == 200) {
+                    var  oTxt = document.getElementById('deviceid');
+                    oTxt.value = xhr.responseText;
+                }
+            }
+        }
+    }
+
+    var file = document.querySelector(".file");
+    file.onchange = function () {
+        var reader = new FileReader();
+        // reader.readAsDataURL(this.files[0]);
+        reader.readAsText(this.files[0]);
+        reader.onload = function () {
+            document.querySelector("#fu").value = this.result;
+        }
+    }
+</script>
+</body>
+<html>
